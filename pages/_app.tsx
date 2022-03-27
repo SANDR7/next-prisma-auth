@@ -1,8 +1,37 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider
+} from '@mantine/core';
+import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+import type { AppProps } from 'next/app';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: 'light'
+  });
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
+  useHotkeys([['mod+J', () => toggleColorScheme()]]);
+  return (
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
+    >
+      <MantineProvider
+        theme={{
+          fontFamily: 'rubik',
+          colorScheme,
+          headings: { sizes: { h1: { fontSize: '3rem' } } }
+        }}
+      >
+        <Component {...pageProps} />
+      </MantineProvider>
+    </ColorSchemeProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
