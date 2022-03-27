@@ -1,19 +1,12 @@
 import PageContainer from '@/layout/Main';
-import {
-  Anchor,
-  Button,
-  Center,
-  Group,
-  Paper,
-  PasswordInput,
-  TextInput
-} from '@mantine/core';
+import { Button, Center, Paper, PasswordInput, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
 import Router from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: '',
@@ -49,16 +42,7 @@ const Login = () => {
               mt="md"
               {...form.getInputProps('password')}
             />
-            <Group position="apart" mt="md">
-              <Anchor<'a'>
-                onClick={(event) => event.preventDefault()}
-                href="#"
-                size="sm"
-              >
-                Forgot password?
-              </Anchor>
-            </Group>
-            <Button type='submit' fullWidth mt="xl">
+            <Button type="submit" fullWidth mt="xl">
               Log in
             </Button>
           </form>
