@@ -17,7 +17,7 @@ const Register = () => {
     validate: {
       username: (value) => (value === undefined ? 'Username is empty' : null),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) => (value.length< 6 ? 'Password is too short': null),
+      password: (value) => (value.length < 6 ? 'Password is too short' : null),
       confirmPassword: (value, values) =>
         value !== values.password
           ? 'Passwords did not match'

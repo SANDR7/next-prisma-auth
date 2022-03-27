@@ -99,7 +99,9 @@ export const Heading = ({ account }: { account: account | undefined }) => {
           </>
         ) : (
           <>
-            <Box>The App</Box>
+            <Anchor component={Link} href="/" >
+              <Box style={{ cursor: 'pointer' }}>The App</Box>
+            </Anchor>
             <Group position="right">
               <PageItem label="Home" link="/" />
               <PageItem label="About" link="/#" />
