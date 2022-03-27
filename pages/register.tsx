@@ -10,11 +10,14 @@ const Register = () => {
     initialValues: {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email')
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      confirmPassword: (value, values) =>
+        value !== values.password ? 'Passwords did not match' : null
     }
   });
 
@@ -48,6 +51,12 @@ const Register = () => {
               placeholder="Your password"
               mt="md"
               {...form.getInputProps('password')}
+            />
+            <PasswordInput
+              label="Confirm password"
+              placeholder="Confirm password"
+              mt="md"
+              {...form.getInputProps('confirmPassword')}
             />
 
             <Button fullWidth mt="xl" type="submit">
