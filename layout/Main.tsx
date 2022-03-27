@@ -11,8 +11,11 @@ interface MainProps {
 
 const PageContainer: FC<MainProps> = (props) => {
   const { children,  ...customMeta } = props;
+ 
+  const { user } = ifUser({}) as {
+    user: { isLoggedIn: boolean; username: string };
+  };
 
-  const {user} = ifUser({});
 
   const meta = {
     title: `Next Prisma - template`,
@@ -40,7 +43,9 @@ const PageContainer: FC<MainProps> = (props) => {
           header={<Heading />}
           navbar={user?.isLoggedIn && Router.asPath !== '/' ? <Navigation /> : undefined}
         >
-          <Container>{children}</Container>
+          {user.isLoggedIn ? children: (
+            <Container>{children}</Container>
+          )}
         </AppShell>
       </Paper>
     </>
