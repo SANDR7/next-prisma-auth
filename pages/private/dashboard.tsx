@@ -2,11 +2,14 @@ import PageContainer from '@/layout/Main';
 import prisma from '@/lib/prisma';
 import { sessionOptions } from '@/lib/session';
 import { account } from '@/types/interfaces';
-import { user } from '@prisma/client';
 import { withIronSessionSsr } from 'iron-session/next';
 
-const Dashboard = ({user}: {user: account}) => {
-  return <PageContainer account={user}>dashboard {user.username} - {user.role}</PageContainer>;
+const Dashboard = ({ user }: { user: account }) => {
+  return (
+    <PageContainer account={user}>
+      dashboard {user.username} - {user.role}
+    </PageContainer>
+  );
 };
 
 export default Dashboard;
@@ -34,7 +37,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   });
 
   return {
-    props: { user: {...userData, isLoggedIn: true} }
+    props: { user: { ...userData, isLoggedIn: true } }
   };
 },
 sessionOptions);

@@ -24,7 +24,7 @@ const Home: NextPage = () => {
           <br />
           by Sander van Ast
         </Title>
-        <Text color={theme.colors.gray[5]} mt={10} style={{width: '75%'}}>
+        <Text color={theme.colors.gray[5]} mt={10} style={{ width: '75%' }}>
           Build fully functional accessible web applications with ease. Mantine
           includes more than 100 customizable components and hooks to cover you
           in any situation
@@ -32,14 +32,10 @@ const Home: NextPage = () => {
       </div>
       <Group mt={70}>
         <Anchor component={Link} href="/login">
-          <Button leftIcon={<Login />}>
-            Login
-          </Button>
-        </Anchor> 
-           <Anchor component={Link} href="/register">
-          <Button variant="outline">
-            Register
-          </Button>
+          <Button leftIcon={<Login />}>Login</Button>
+        </Anchor>
+        <Anchor component={Link} href="/register">
+          <Button variant="outline">Register</Button>
         </Anchor>
       </Group>
     </PageContainer>

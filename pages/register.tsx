@@ -60,7 +60,7 @@ const Register = () => {
             />
 
             <Button fullWidth mt="xl" type="submit">
-             Sign in
+              Sign in
             </Button>
           </form>
         </Paper>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { Heading, Navigation } from './Navigation';
 
-const PageContainer: FC<Account> = (props ) => {
+const PageContainer: FC<Account> = (props) => {
   const { children, account, ...customMeta } = props;
 
   const router = useRouter();
