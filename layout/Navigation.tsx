@@ -1,4 +1,4 @@
-import { Header, Navbar } from '@mantine/core';
+import { Container, Header, Navbar } from '@mantine/core';
 import React from 'react';
 
 export const Navigation = () => {
@@ -8,7 +8,9 @@ export const Navigation = () => {
 export const Heading = () => {
   return (
     <Header height={60} p="md">
+      <Container>
       Heading
+      </Container>
     </Header>
   );
 };

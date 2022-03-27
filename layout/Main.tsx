@@ -1,4 +1,4 @@
-import { AppShell, Paper } from '@mantine/core';
+import { AppShell, Container, Paper } from '@mantine/core';
 import Head from 'next/head';
 import React, { FC } from 'react';
 import { Heading, Navigation } from './Navigation';
@@ -36,7 +36,7 @@ const PageContainer: FC<MainProps> = (props) => {
           header={<Heading />}
           navbar={user ? <Navigation /> : undefined}
         >
-          {children}
+          <Container>{children}</Container>
         </AppShell>
       </Paper>
     </>

@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     >
       <MantineProvider
         theme={{
-          fontFamily: 'rubik',
+          fontFamily: 'sans-serif',
           colorScheme,
           headings: { sizes: { h1: { fontSize: '3rem' } } }
         }}

@@ -15,20 +15,20 @@ const Home: NextPage = () => {
   const theme = useMantineTheme();
   return (
     <PageContainer>
-      <Title order={1} style={{textAlign: "center"}}>
+      <Title order={1}>
         The{' '}
         <Text component="span" color="green" inherit>
           Application for you
-        </Text>{' '}
+        </Text>{' '} <br />
         by Sander van Ast
       </Title>
-      <Group mt={70} position="center">
+      <Group mt={70}>
         <Anchor component={Link} href="/login">
           <Button leftIcon={<Login />} variant="subtle">
             Login
           </Button>
         </Anchor>
-        <Button color="grape" component="a">
+        <Button component="a">
           Register
         </Button>
       </Group>
