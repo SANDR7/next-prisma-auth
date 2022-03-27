@@ -1,4 +1,4 @@
-import { ifUser } from '@/lib/session';
+import { account } from '@/types/interfaces';
 import {
   ActionIcon,
   Anchor,
@@ -14,22 +14,23 @@ import {
 } from '@mantine/core';
 import axios from 'axios';
 import Link from 'next/link';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { Moon, Sun } from 'tabler-icons-react';
 
-export const Navigation = () => {
-  const { user } = ifUser({}) as {
-    user: { isLoggedIn: boolean; username: string };
-  };
-
+export const Navigation = ({ account }: { account: account }) => {
   return (
     <Navbar width={{ base: 300 }} p="lg">
       <Navbar.Section>
         <Title order={2}>
           Welcome,{' '}
-          <Text component="span" inherit style={{textTransform: 'capitalize'}}>
-            {user.username}
+          <Text
+            component="span"
+            inherit
+            style={{ textTransform: 'capitalize' }}
+          >
+            {account.username}
+            <Text color="gray">Type: {account.role}</Text>
           </Text>
         </Title>
       </Navbar.Section>
@@ -43,13 +44,9 @@ export const Navigation = () => {
   );
 };
 
-export const Heading = () => {
+export const Heading = ({ account }: { account: account | undefined }) => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
-
-  const { user } = ifUser({}) as {
-    user: { isLoggedIn: boolean; username: string };
-  };
 
   const PageItem = ({
     label,
@@ -67,24 +64,26 @@ export const Heading = () => {
     </Anchor>
   );
 
+  const router = useRouter();
   return (
     <Header height={60} p="lg">
       <Container
         style={{
           display: 'flex',
-          justifyContent: user.isLoggedIn ? 'end' : 'space-between',
+          justifyContent: account?.isLoggedIn ? 'end' : 'space-between',
           alignItems: 'center'
         }}
       >
         {/* return user ? account nav : static nav */}
-        {user?.isLoggedIn ? (
+        {account?.isLoggedIn ? (
           <>
             <Group position="right">
               <PageItem
                 label="Logout"
                 link="/"
                 onClick={async () =>
-                  (await axios.post('/api/auth/logout')) && Router.push('/')
+                  (await axios.post('/api/auth/logout')) &&
+                  router.push('/login')
                 }
               />
               <ActionIcon

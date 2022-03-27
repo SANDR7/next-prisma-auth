@@ -1,22 +1,14 @@
-import { ifUser } from '@/lib/session';
+import { Account } from '@/types/interfaces';
 import { AppShell, Container, Paper } from '@mantine/core';
 import Head from 'next/head';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { Heading, Navigation } from './Navigation';
 
-interface MainProps {
-  user?: any;
-}
+const PageContainer: FC<Account> = (props ) => {
+  const { children, account, ...customMeta } = props;
 
-const PageContainer: FC<MainProps> = (props) => {
-  const { children,  ...customMeta } = props;
- 
-  const { user } = ifUser({}) as {
-    user: { isLoggedIn: boolean; username: string };
-  };
-
-
+  const router = useRouter();
   const meta = {
     title: `Next Prisma - template`,
     description: 'Authentication app that combines front-end & back-end',
@@ -40,12 +32,14 @@ const PageContainer: FC<MainProps> = (props) => {
       <Paper>
         <AppShell
           padding="md"
-          header={<Heading />}
-          navbar={user?.isLoggedIn && Router.asPath !== '/' ? <Navigation /> : undefined}
+          header={<Heading account={account} />}
+          navbar={
+            account?.isLoggedIn && router.asPath !== '/' ? (
+              <Navigation account={account} />
+            ) : undefined
+          }
         >
-          {user.isLoggedIn ? children: (
-            <Container>{children}</Container>
-          )}
+          {account?.isLoggedIn ? children : <Container>{children}</Container>}
         </AppShell>
       </Paper>
     </>

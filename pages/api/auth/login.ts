@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const loggedInUser = await prisma.user.findFirst({
     where: { email },
-    select: { id: true, username: true }
+    select: { id: true, username: true, role: true }
   });
   try {
     const findUser = await prisma.user.findFirst({
