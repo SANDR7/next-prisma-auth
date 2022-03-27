@@ -32,7 +32,7 @@ export const Heading = () => {
   // Static nav
   // return user ? account nav : static nav
   return (
-    <Header height={60} p="lg">
+    <Header height={60} p="lg" fixed>
       <Container
         style={{
           display: 'flex',

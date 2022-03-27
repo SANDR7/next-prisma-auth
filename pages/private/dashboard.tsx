@@ -1,8 +1,9 @@
+import PageContainer from '@/layout/Main'
 import React from 'react'
 
 const dashboard = () => {
   return (
-	<div>dashboard</div>
+	<PageContainer>dashboard</PageContainer>
   )
 }
 
