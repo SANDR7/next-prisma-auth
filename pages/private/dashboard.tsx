@@ -2,6 +2,7 @@ import PageContainer from '@/layout/Main';
 import prisma from '@/lib/prisma';
 import { sessionOptions } from '@/lib/session';
 import { account } from '@/types/interfaces';
+import { Badge, Card, Skeleton, Text, Title } from '@mantine/core';
 import { withIronSessionSsr } from 'iron-session/next';
 
 const Dashboard = ({ user }: { user: account }) => {

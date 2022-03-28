@@ -18,9 +18,27 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { Moon, Sun } from 'tabler-icons-react';
 
+const PageItem = ({
+  label,
+  link,
+  compact = true,
+  onClick
+}: {
+  label: string;
+  link: string;
+  compact?: boolean;
+  onClick?: () => void;
+}) => (
+  <Anchor component={Link} href={link}>
+    <Button variant="light" compact={compact} onClick={onClick}>
+      {label}
+    </Button>
+  </Anchor>
+);
+
 export const Navigation = ({ account }: { account: account }) => {
   return (
-    <Navbar width={{ base: 300 }} p="lg">
+    <Navbar width={{ lg: 400, sm: 300 }} p="lg">
       <Navbar.Section>
         <Title order={2}>
           Welcome,{' '}
@@ -36,8 +54,8 @@ export const Navigation = ({ account }: { account: account }) => {
       </Navbar.Section>
       <Navbar.Section grow mt="xl">
         <Group position="right" direction="column" grow>
-          <Button variant="light">Account</Button>
-          <Button variant="light">Posts</Button>
+         <PageItem label='Account'link="/private/dashboard" compact={false}/>
+         <PageItem label='Posts'link="/private/posts" compact={false}/>
         </Group>
       </Navbar.Section>
     </Navbar>
@@ -45,24 +63,10 @@ export const Navigation = ({ account }: { account: account }) => {
 };
 
 export const Heading = ({ account }: { account: account | undefined }) => {
+
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
 
-  const PageItem = ({
-    label,
-    link,
-    onClick
-  }: {
-    label: string;
-    link: string;
-    onClick?: () => void;
-  }) => (
-    <Anchor component={Link} href={link}>
-      <Button variant="light" compact onClick={onClick}>
-        {label}
-      </Button>
-    </Anchor>
-  );
 
   const router = useRouter();
   return (
@@ -70,13 +74,16 @@ export const Heading = ({ account }: { account: account | undefined }) => {
       <Container
         style={{
           display: 'flex',
-          justifyContent: account?.isLoggedIn ? 'end' : 'space-between',
+          justifyContent: 'space-between',
           alignItems: 'center'
         }}
       >
         {/* return user ? account nav : static nav */}
         {account?.isLoggedIn ? (
           <>
+             <Anchor component={Link} href="/" >
+              <Box style={{ cursor: 'pointer' }}>{account.username} - {account.email}</Box>
+            </Anchor>
             <Group position="right">
               <PageItem
                 label="Logout"
@@ -104,6 +111,7 @@ export const Heading = ({ account }: { account: account | undefined }) => {
             </Anchor>
             <Group position="right">
               <PageItem label="Home" link="/" />
+              <PageItem label="Posts" link="/posts" />
               <PageItem label="About" link="/#" />
               <ActionIcon
                 variant="outline"
