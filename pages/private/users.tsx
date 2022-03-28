@@ -5,11 +5,9 @@ import { account } from '@/types/interfaces';
 import { ScrollArea, Table } from '@mantine/core';
 import { user } from '@prisma/client';
 import { withIronSessionSsr } from 'iron-session/next';
-import React, { useState } from 'react';
+import React from 'react';
 
 const Users = ({ user, allUser }: { user: account; allUser: account[] }) => {
-  const [scrolled, setScrolled] = useState(false);
-
   const rows = allUser.map((row: any) => (
     <tr key={row.username}>
       <td>{row.username}</td>
@@ -21,7 +19,7 @@ const Users = ({ user, allUser }: { user: account; allUser: account[] }) => {
 
   return (
     <PageContainer account={user}>
-      <ScrollArea sx={{ height: 200 }}>
+      <ScrollArea sx={{ height: 800 }}>
         <Table>
           <thead>
             <tr>

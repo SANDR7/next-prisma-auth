@@ -16,14 +16,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const checkTakenUser = await prisma.user.findFirst({
       where: {
-        username: {
-          equals: username
+        email: {
+          equals: email 
         }
       }
     });
 
     if (checkTakenUser) {
-      return res.json({ message: 'User already exists', ok: false });
+      return res.json({ message: 'User already exists (a.k.a email is used)', ok: false });
 	  
     }
 
