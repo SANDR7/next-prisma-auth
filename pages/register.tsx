@@ -1,9 +1,19 @@
 import PageContainer from '@/layout/Main';
-import { Button, Center, Paper, PasswordInput, TextInput } from '@mantine/core';
+import {
+  Anchor,
+  Button,
+  Center,
+  Paper,
+  PasswordInput,
+  TextInput,
+  Title,
+  Text
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
 import Router from 'next/router';
 import React from 'react';
+import Link  from 'next/link';
 
 const Register = () => {
   const form = useForm({
@@ -31,6 +41,21 @@ const Register = () => {
     <PageContainer>
       <Center mt={40}>
         <Paper style={{ width: '50%' }}>
+        <Title align="center" order={2}>
+          Welcome!
+        </Title>
+        <Text color="dimmed" align="center" mt={5}>
+          Do have an account yet?{' '}
+          <Anchor
+            component={Link}
+            color="pink"
+            underline
+            href="/login"
+            size="sm"
+          >
+            Log in
+          </Anchor>
+        </Text>
           <form
             onSubmit={form.onSubmit(
               async (values) =>

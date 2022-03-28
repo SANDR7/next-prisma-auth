@@ -1,6 +1,7 @@
 import {
   ColorScheme,
   ColorSchemeProvider,
+  Global,
   MantineProvider
 } from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
@@ -26,6 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           fontFamily: 'sans-serif',
           colorScheme
         }}
+        withGlobalStyles
       >
         <Component {...pageProps} />
       </MantineProvider>

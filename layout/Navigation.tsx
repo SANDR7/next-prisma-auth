@@ -27,7 +27,7 @@ export const Navigation = ({ account }: { account: account }) => {
           <Text
             component="span"
             inherit
-            style={{ textTransform: 'capitalize' }}
+            transform='capitalize'
           >
             {account.username}
             <Text color="gray">Type: {account.role}</Text>
