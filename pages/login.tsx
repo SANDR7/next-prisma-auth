@@ -1,5 +1,6 @@
 import PageContainer from '@/layout/Main';
 import {
+  Alert,
   Anchor,
   Button,
   Center,
@@ -14,6 +15,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import Router from 'next/router';
 import React, { useState } from 'react';
+import { AlertCircle } from 'tabler-icons-react';
 
 const Login = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -48,7 +50,11 @@ const Login = () => {
               Create account
             </Anchor>
           </Text>
-          <Text>{errMessage}</Text>
+          {errMessage && (
+            <Alert icon={<AlertCircle size={16} />} color="red" my={10}>
+              {errMessage}
+            </Alert>
+          )}
           <form
             onSubmit={form.onSubmit(async (values, event) => {
               event.preventDefault();

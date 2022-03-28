@@ -1,5 +1,6 @@
 import PageContainer from '@/layout/Main';
 import {
+  Alert,
   Anchor,
   Button,
   Center,
@@ -14,6 +15,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import Router from 'next/router';
 import React, { useState } from 'react';
+import { AlertCircle } from 'tabler-icons-react';
 
 const Register = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -58,23 +60,25 @@ const Register = () => {
               Log in
             </Anchor>
           </Text>
-          <Text>{errMessage}</Text>
+          {errMessage && (
+            <Alert icon={<AlertCircle size={16} />} color="red" my={10}>
+              {errMessage}
+            </Alert>
+          )}
           <form
             onSubmit={form.onSubmit(async (values, event) => {
               event.preventDefault();
-              await axios
-                .post('/api/auth/register', values)
-                .then((res) => {
-                  const { ok, message } = res.data;
-                  setSubmitting(true);
-  
-                  if (ok) {
-                    Router.push('/private/dashboard');
-                  } else {
-                    setSubmitting(false);
-                    setErrMessage(message);
-                  }
-                });
+              await axios.post('/api/auth/register', values).then((res) => {
+                const { ok, message } = res.data;
+                setSubmitting(true);
+
+                if (ok) {
+                  Router.push('/private/dashboard');
+                } else {
+                  setSubmitting(false);
+                  setErrMessage(message);
+                }
+              });
             })}
           >
             <TextInput
