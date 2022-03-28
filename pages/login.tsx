@@ -1,4 +1,5 @@
 import PageContainer from '@/layout/Main';
+import { ifUser } from '@/lib/session';
 import {
   Alert,
   Anchor,
@@ -20,6 +21,9 @@ import { AlertCircle } from 'tabler-icons-react';
 const Login = () => {
   const [submitting, setSubmitting] = useState(false);
   const [errMessage, setErrMessage] = useState('');
+
+  ifUser({ redirectTo: '/private/dashboard', redirectIfFound: true });
+  
   const form = useForm({
     initialValues: {
       email: '',

@@ -29,15 +29,15 @@ export const Navigation = ({ account }: { account: account }) => {
             inherit
             transform='capitalize'
           >
-            {account.username}
-            <Text color="gray">Type: {account.role}</Text>
+            {account.username || "Imposter"}
+            <Text color="gray">Type: {account.role || "nothing"}</Text>
           </Text>
         </Title>
       </Navbar.Section>
       <Navbar.Section grow mt="xl">
         <Group position="right" direction="column" grow>
           <Button variant="light">Account</Button>
-          <Button variant="light">Account</Button>
+          <Button variant="light">Posts</Button>
         </Group>
       </Navbar.Section>
     </Navbar>

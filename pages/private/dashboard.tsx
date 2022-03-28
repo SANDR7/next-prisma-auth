@@ -7,7 +7,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 const Dashboard = ({ user }: { user: account }) => {
   return (
     <PageContainer account={user}>
-      dashboard {user.username} - {user.role}
+      <pre>{JSON.stringify(user, null, 2)}</pre>
     </PageContainer>
   );
 };
