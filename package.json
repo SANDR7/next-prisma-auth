@@ -8,9 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next export",
-    "p:migrate": "npx prisma migrate dev",
-    "p:push": "npx prisma db push && npx prisma generate",
-    "p:pull": "npx prisma db pull && npx prisma generate"
+    "db:migrate": "npx prisma migrate dev",
+    "db:view": "npx prisma studio",
+    "db:push": "npx prisma db push && npx prisma generate",
+    "db:pull": "npx prisma db pull && npx prisma generate"
   },
   "dependencies": {
     "@mantine/core": "^4.0.8",
