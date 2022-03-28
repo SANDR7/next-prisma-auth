@@ -5,17 +5,19 @@ import {
   Center,
   Paper,
   PasswordInput,
+  Text,
   TextInput,
-  Title,
-  Text
+  Title
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
+import Link from 'next/link';
 import Router from 'next/router';
-import React from 'react';
-import Link  from 'next/link';
+import React, { useState } from 'react';
 
 const Register = () => {
+  const [submitting, setSubmitting] = useState(false);
+  const [errMessage, setErrMessage] = useState('');
   const form = useForm({
     initialValues: {
       username: '',
@@ -41,33 +43,45 @@ const Register = () => {
     <PageContainer>
       <Center mt={40}>
         <Paper style={{ width: '50%' }}>
-        <Title align="center" order={2}>
-          Welcome!
-        </Title>
-        <Text color="dimmed" align="center" mt={5}>
-          Do have an account yet?{' '}
-          <Anchor
-            component={Link}
-            color="pink"
-            underline
-            href="/login"
-            size="sm"
-          >
-            Log in
-          </Anchor>
-        </Text>
+          <Title align="center" order={2}>
+            Welcome!
+          </Title>
+          <Text color="dimmed" align="center" mt={5}>
+            Do have an account yet?{' '}
+            <Anchor
+              component={Link}
+              color="pink"
+              underline
+              href="/login"
+              size="sm"
+            >
+              Log in
+            </Anchor>
+          </Text>
+          <Text>{errMessage}</Text>
           <form
-            onSubmit={form.onSubmit(
-              async (values) =>
-                await axios
-                  .post('/api/auth/register', values)
-                  .then(() => Router.push('/private/dashboard'))
-            )}
+            onSubmit={form.onSubmit(async (values, event) => {
+              event.preventDefault();
+              await axios
+                .post('/api/auth/register', values)
+                .then((res) => {
+                  const { ok, message } = res.data;
+                  setSubmitting(true);
+  
+                  if (ok) {
+                    Router.push('/private/dashboard');
+                  } else {
+                    setSubmitting(false);
+                    setErrMessage(message);
+                  }
+                });
+            })}
           >
             <TextInput
               label="Username"
               placeholder="Your username"
               required
+              disabled={submitting}
               {...form.getInputProps('username')}
             />
             <TextInput
@@ -75,22 +89,25 @@ const Register = () => {
               placeholder="Your email"
               mt="md"
               required
+              disabled={submitting}
               {...form.getInputProps('email')}
             />
             <PasswordInput
               label="Password"
               placeholder="Your password"
               mt="md"
+              disabled={submitting}
               {...form.getInputProps('password')}
             />
             <PasswordInput
               label="Confirm password"
               placeholder="Confirm password"
               mt="md"
+              disabled={submitting}
               {...form.getInputProps('confirmPassword')}
             />
 
-            <Button fullWidth mt="xl" type="submit">
+            <Button fullWidth mt="xl" type="submit" loading={submitting}>
               Sign in
             </Button>
           </form>

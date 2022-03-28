@@ -16,7 +16,8 @@ import Router from 'next/router';
 import React, { useState } from 'react';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errMessage, setErrMessage] = useState('');
   const form = useForm({
     initialValues: {
       email: '',
@@ -27,6 +28,7 @@ const Login = () => {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email')
     }
   });
+
   return (
     <PageContainer>
       <Center mt={40}>
@@ -46,28 +48,39 @@ const Login = () => {
               Create account
             </Anchor>
           </Text>
+          <Text>{errMessage}</Text>
           <form
-            onSubmit={form.onSubmit(
-              async (values) =>
-                await axios
-                  .post('api/auth/login', values)
-                  .then(() => Router.push('/private/dashboard'))
-            )}
+            onSubmit={form.onSubmit(async (values, event) => {
+              event.preventDefault();
+              await axios.post('api/auth/login', values).then((res) => {
+                const { ok, message } = res.data;
+                setSubmitting(true);
+
+                if (ok) {
+                  Router.push('/private/dashboard');
+                } else {
+                  setSubmitting(false);
+                  setErrMessage(message);
+                }
+              });
+            })}
           >
             <TextInput
               label="Email"
               placeholder="Your email"
               required
+              disabled={submitting}
               {...form.getInputProps('email')}
             />
             <PasswordInput
               label="Password"
               placeholder="Your password"
               required
+              disabled={submitting}
               mt="md"
               {...form.getInputProps('password')}
             />
-            <Button type="submit" fullWidth mt="xl">
+            <Button type="submit" fullWidth mt="xl" loading={submitting}>
               Log in
             </Button>
           </form>
