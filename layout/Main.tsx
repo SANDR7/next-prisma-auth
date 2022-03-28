@@ -1,5 +1,5 @@
 import { Account } from '@/types/interfaces';
-import { AppShell, Container, Paper } from '@mantine/core';
+import { AppShell, Container } from '@mantine/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
@@ -29,19 +29,17 @@ const PageContainer: FC<Account> = (props) => {
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
       </Head>
-      <Paper>
-        <AppShell
-          padding="md"
-          header={<Heading account={account} />}
-          navbar={
-            account?.isLoggedIn && router.asPath !== '/' ? (
-              <Navigation account={account} />
-            ) : undefined
-          }
-        >
-          {account?.isLoggedIn ? children : <Container>{children}</Container>}
-        </AppShell>
-      </Paper>
+      <AppShell
+        padding="md"
+        header={<Heading account={account} />}
+        navbar={
+          account?.isLoggedIn && router.asPath !== '/' ? (
+            <Navigation account={account} />
+          ) : undefined
+        }
+      >
+        {account?.isLoggedIn ? children : <Container>{children}</Container>}
+      </AppShell>
     </>
   );
 };
