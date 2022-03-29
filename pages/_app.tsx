@@ -1,10 +1,10 @@
 import {
   ColorScheme,
   ColorSchemeProvider,
-  Global,
   MantineProvider
 } from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+import { ModalsProvider } from '@mantine/modals';
 import type { AppProps } from 'next/app';
 import '../styles/globals.css';
 
@@ -29,7 +29,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
         withGlobalStyles
       >
-        <Component {...pageProps} />
+        <ModalsProvider>
+          <Component {...pageProps} />
+        </ModalsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );

@@ -22,7 +22,7 @@ const Login = () => {
   const [submitting, setSubmitting] = useState(false);
   const [errMessage, setErrMessage] = useState('');
 
-  ifUser({ redirectTo: '/private/dashboard', redirectIfFound: true });
+  ifUser({ redirectTo: '/dashboard', redirectIfFound: true });
   
   const form = useForm({
     initialValues: {
@@ -67,7 +67,7 @@ const Login = () => {
                 setSubmitting(true);
 
                 if (ok) {
-                  Router.push('/private/dashboard');
+                  Router.push('/dashboard');
                 } else {
                   setSubmitting(false);
                   setErrMessage(message);

@@ -1,26 +1,37 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
-import { sessionOptions } from 'lib/session'
-import { NextApiRequest, NextApiResponse } from 'next'
+import prisma from '@/lib/prisma';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { sessionOptions } from 'lib/session';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export type User = {
-  isLoggedIn: boolean
-  login: string
-  avatarUrl: string
-}
+  isLoggedIn: boolean;
+  login: string;
+  avatarUrl: string;
+};
 
-export default withIronSessionApiRoute(userRoute, sessionOptions)
+export default withIronSessionApiRoute(userRoute, sessionOptions);
 
 async function userRoute(req: NextApiRequest, res: NextApiResponse<any>) {
   if (req.session.user) {
-    // in a real world application you might read the user id from the session and then do a database request
-    // to get more information on the user if needed
+    if (req.method === 'DELETE') {
+      const { identifier } = req.query;
+      await prisma.post.deleteMany({
+        where: { user_id: identifier as string }
+      });
+      await prisma.user.delete({
+        where: { id: identifier as string }
+      });
+      req.session.destroy();
+
+      return res.status(200).json({ message: 'User deleted', ok: true });
+    }
     return res.json({
       ...req.session.user,
-      isLoggedIn: true,
-    })
+      isLoggedIn: true
+    });
   } else {
     return res.json({
-      isLoggedIn: false,
-    })
+      isLoggedIn: false
+    });
   }
 }

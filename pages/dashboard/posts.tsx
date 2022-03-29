@@ -97,7 +97,7 @@ const Post = ({ user }: { user: account }) => {
                             setOkMessage(res.data.ok);
 
                             setMessage(res.data.message);
-                            Router.push('/private/posts');
+                            Router.push('/dashboard/posts');
                           })
                           .finally(() => {
                             UpdateForm.reset()
@@ -155,7 +155,7 @@ const Post = ({ user }: { user: account }) => {
 
               await axios.post('/api/post/create', values).then((res) => {
                 setMessage(res.data.message);
-                Router.push('/private/posts');
+                Router.push('/dashboard/posts');
               });
             })}
           >
