@@ -15,6 +15,7 @@ model post {
   title       String
   description String
   user_id     String? @db.VarChar(25)
+  likes       Int?     @db.Int @default(0)
   users       user?   @relation(fields: [user_id], references: [id])
 
   @@index([user_id], map: "posts_user_id_fkey")
