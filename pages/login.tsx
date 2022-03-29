@@ -23,7 +23,7 @@ const Login = () => {
   const [errMessage, setErrMessage] = useState('');
 
   ifUser({ redirectTo: '/dashboard', redirectIfFound: true });
-  
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -38,7 +38,7 @@ const Login = () => {
   return (
     <PageContainer>
       <Center mt={40}>
-        <Paper style={{ width: '50%' }}>
+        <Paper withBorder shadow="xl" radius="md" style={{ width: 700 }} p={30}>
           <Title align="center" order={2}>
             Welcome back!
           </Title>
