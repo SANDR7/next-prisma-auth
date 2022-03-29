@@ -22,8 +22,8 @@ const Login = () => {
   const [submitting, setSubmitting] = useState(false);
   const [errMessage, setErrMessage] = useState('');
 
-  ifUser({ redirectTo: '/private/dashboard', redirectIfFound: true });
-
+  ifUser({ redirectTo: '/dashboard', redirectIfFound: true });
+  
   const form = useForm({
     initialValues: {
       email: '',

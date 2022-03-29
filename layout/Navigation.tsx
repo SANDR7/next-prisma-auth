@@ -50,11 +50,8 @@ export const Navigation = ({ account }: { account: account }) => {
       </Navbar.Section>
       <Navbar.Section grow mt="xl">
         <Group position="right" direction="column" grow>
-          <PageItem label="Account" link="/dashboard" compact={false} />
-          <PageItem label="Posts" link="/dashboard/posts" compact={false} />
-          {account.role === 'ADMIN' && (
-            <PageItem label="Users" link="/dashboard/users" compact={false} />
-          )}
+         <PageItem label='Account'link="/dashboard" compact={false}/>
+         <PageItem label='Posts'link="/dashboard/posts" compact={false}/>
         </Group>
       </Navbar.Section>
     </Navbar>

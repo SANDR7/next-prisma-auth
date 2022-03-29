@@ -14,9 +14,10 @@
     "db:pull": "npx prisma db pull && npx prisma generate"
   },
   "dependencies": {
-    "@mantine/core": "^4.0.8",
+    "@mantine/core": "^4.1.0",
     "@mantine/form": "^4.0.8",
-    "@mantine/hooks": "^4.0.8",
+    "@mantine/hooks": "^4.1.0",
+    "@mantine/modals": "^4.1.0",
     "@mantine/next": "^4.0.8",
     "@prisma/client": "^3.11.1",
     "axios": "^0.26.1",
