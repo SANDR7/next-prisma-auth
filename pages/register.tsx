@@ -73,7 +73,7 @@ const Register = () => {
                 setSubmitting(true);
 
                 if (ok) {
-                  Router.push('/private/dashboard');
+                  Router.push('/dashboard');
                 } else {
                   setSubmitting(false);
                   setErrMessage(message);
@@ -82,6 +82,7 @@ const Register = () => {
             })}
           >
             <TextInput
+              id="username"
               label="Username"
               placeholder="Your username"
               required
@@ -89,6 +90,7 @@ const Register = () => {
               {...form.getInputProps('username')}
             />
             <TextInput
+              id="email"
               label="Email"
               placeholder="Your email"
               mt="md"
@@ -97,16 +99,20 @@ const Register = () => {
               {...form.getInputProps('email')}
             />
             <PasswordInput
+              id="password"
               label="Password"
               placeholder="Your password"
               mt="md"
+              autoComplete="off"
               disabled={submitting}
               {...form.getInputProps('password')}
             />
             <PasswordInput
+              id="confirm-password"
               label="Confirm password"
               placeholder="Confirm password"
               mt="md"
+              autoComplete="off"
               disabled={submitting}
               {...form.getInputProps('confirmPassword')}
             />

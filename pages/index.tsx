@@ -38,6 +38,8 @@ const Home: NextPage = () => {
           <Button variant="outline">Register</Button>
         </Anchor>
       </Group>
+  
+
     </PageContainer>
   );
 };

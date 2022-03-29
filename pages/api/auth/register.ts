@@ -9,26 +9,30 @@ export default withIronSessionApiRoute(handler, sessionOptions);
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST')
-    return res.status(405).json({ message: 'Invalid request' });
+    return res.status(405).json({ message: 'Invalid request', ok: false });
 
   const { username, email, password } = req.body;
+
+  if (!username && !email && !password)
+    return res.json({ message: 'No data given', ok: false });
 
   try {
     const checkTakenUser = await prisma.user.findFirst({
       where: {
-        username: {
-          equals: username
+        email: {
+          equals: email
         }
       }
     });
 
     if (checkTakenUser) {
-      return res.json({ message: 'User already exists', ok: false });
-	  
+      return res.json({
+        message: 'User already exists (a.k.a email is used)',
+        ok: false
+      });
     }
 
     if (password.length < 6) {
-		
       return res.json({ message: 'password is too short', ok: false });
     }
 
@@ -37,7 +41,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const user = await prisma.user.create({
       data: {
         username,
-		email,
+        email,
         password: hashedPassword,
         role: 'USER'
       }

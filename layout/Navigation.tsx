@@ -42,20 +42,19 @@ export const Navigation = ({ account }: { account: account }) => {
       <Navbar.Section>
         <Title order={2}>
           Welcome,{' '}
-          <Text
-            component="span"
-            inherit
-            transform='capitalize'
-          >
-            {account.username || "Imposter"}
-            <Text color="gray">Type: {account.role || "nothing"}</Text>
+          <Text component="span" inherit transform="capitalize">
+            {account.username || 'Imposter'}
+            <Text color="gray">Type: {account.role || 'nothing'}</Text>
           </Text>
         </Title>
       </Navbar.Section>
       <Navbar.Section grow mt="xl">
         <Group position="right" direction="column" grow>
-         <PageItem label='Account'link="/private/dashboard" compact={false}/>
-         <PageItem label='Posts'link="/private/posts" compact={false}/>
+          <PageItem label="Account" link="/dashboard" compact={false} />
+          <PageItem label="Posts" link="/dashboard/posts" compact={false} />
+          {account.role === 'ADMIN' && (
+            <PageItem label="Users" link="/dashboard/users" compact={false} />
+          )}
         </Group>
       </Navbar.Section>
     </Navbar>
@@ -63,10 +62,8 @@ export const Navigation = ({ account }: { account: account }) => {
 };
 
 export const Heading = ({ account }: { account: account | undefined }) => {
-
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
-
 
   const router = useRouter();
   return (
@@ -81,8 +78,10 @@ export const Heading = ({ account }: { account: account | undefined }) => {
         {/* return user ? account nav : static nav */}
         {account?.isLoggedIn ? (
           <>
-             <Anchor component={Link} href="/" >
-              <Box style={{ cursor: 'pointer' }}>{account.username} - {account.email}</Box>
+            <Anchor component={Link} href="/">
+              <Box style={{ cursor: 'pointer' }}>
+                {account.username} - {account.email}
+              </Box>
             </Anchor>
             <Group position="right">
               <PageItem
@@ -106,7 +105,7 @@ export const Heading = ({ account }: { account: account | undefined }) => {
           </>
         ) : (
           <>
-            <Anchor component={Link} href="/" >
+            <Anchor component={Link} href="/">
               <Box style={{ cursor: 'pointer' }}>The App</Box>
             </Anchor>
             <Group position="right">

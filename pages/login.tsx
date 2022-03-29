@@ -23,7 +23,7 @@ const Login = () => {
   const [errMessage, setErrMessage] = useState('');
 
   ifUser({ redirectTo: '/private/dashboard', redirectIfFound: true });
-  
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -67,7 +67,7 @@ const Login = () => {
                 setSubmitting(true);
 
                 if (ok) {
-                  Router.push('/private/dashboard');
+                  Router.push('/dashboard');
                 } else {
                   setSubmitting(false);
                   setErrMessage(message);
@@ -76,15 +76,19 @@ const Login = () => {
             })}
           >
             <TextInput
+              id="email"
               label="Email"
               placeholder="Your email"
+              autoComplete="on"
               required
               disabled={submitting}
               {...form.getInputProps('email')}
             />
             <PasswordInput
+              id="password"
               label="Password"
               placeholder="Your password"
+              autoComplete="on"
               required
               disabled={submitting}
               mt="md"

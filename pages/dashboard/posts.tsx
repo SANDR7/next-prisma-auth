@@ -155,6 +155,7 @@ const Post = ({ user }: { user: account }) => {
 
               await axios.post('/api/post/create', values).then((res) => {
                 setMessage(res.data.message);
+                form.reset();
                 Router.push('/private/posts');
               });
             })}
