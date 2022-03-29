@@ -67,7 +67,7 @@ const Login = () => {
                 setSubmitting(true);
 
                 if (ok) {
-                  Router.push('/private/dashboard');
+                  Router.push('/dashboard');
                 } else {
                   setSubmitting(false);
                   setErrMessage(message);
