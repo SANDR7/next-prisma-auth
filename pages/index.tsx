@@ -18,7 +18,7 @@ const Home: NextPage = () => {
       <div>
         <Title order={1}>
           The{' '}
-          <Text component="span" color="green" inherit>
+          <Text component="span" color={theme.primaryColor} inherit>
             Application for you
           </Text>{' '}
           <br />

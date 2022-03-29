@@ -43,8 +43,8 @@ const Register = () => {
 
   return (
     <PageContainer>
-      <Center mt={40}>
-        <Paper style={{ width: '50%' }}>
+      <Center>
+        <Paper withBorder shadow="xl" radius="md" style={{ width: 700 }} p={30}>
           <Title align="center" order={2}>
             Welcome!
           </Title>
