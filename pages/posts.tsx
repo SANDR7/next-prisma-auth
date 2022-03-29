@@ -12,7 +12,18 @@ interface withUser extends post {
 }
 
 const Posts = ({ posts }: { posts: withUser[] }) => {
-  const [clicked, setClicked] = useState(true);
+  const [clicked, setClicked] = useState<boolean | null>(true);
+  
+const like = async (id: string, currentLikes: number | null) => {
+  setClicked(!clicked);
+  await axios
+    .put(`/api/post/likes?identifier=${id}`, {
+      currentLikes,
+      clicked
+    })
+    .then(() => Router.push('/posts'));
+}
+
   return (
     <PageContainer>
       <Group direction="column" grow>
@@ -27,19 +38,11 @@ const Posts = ({ posts }: { posts: withUser[] }) => {
               <Text mt={30}>{post.description}</Text>
 
               <ActionIcon
-                variant="outline"
+                variant={clicked ? "filled" : "outline"}
                 mt={30}
                 p={4}
                 color="red"
-                onClick={async () => {
-                  setClicked(!clicked);
-                  await axios
-                    .put(`/api/post/likes?identifier=${post.id}`, {
-                      currentLikes: post.likes,
-                      clicked: clicked
-                    })
-                    .then(() => Router.push('/posts'));
-                }}
+                onClick={ () => setClicked(!clicked)}
               >
                 <Heart />
               </ActionIcon>
