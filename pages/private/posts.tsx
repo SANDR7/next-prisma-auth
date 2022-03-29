@@ -3,11 +3,12 @@ import prisma from '@/lib/prisma';
 import { sessionOptions } from '@/lib/session';
 import { account } from '@/types/interfaces';
 import {
-  Alert,
   Badge,
   Button,
   Card,
   Group,
+  Modal,
+  Notification,
   Skeleton,
   Tabs,
   Text,
@@ -20,9 +21,13 @@ import axios from 'axios';
 import { withIronSessionSsr } from 'iron-session/next';
 import Router from 'next/router';
 import { useState } from 'react';
+import { Check, X } from 'tabler-icons-react';
 
 const Post = ({ user }: { user: account }) => {
   const [message, setMessage] = useState('');
+  const [okMessage, setOkMessage] = useState<boolean>();
+  const [opened, setOpened] = useState('');
+
   const form = useForm({
     initialValues: {
       title: '',
@@ -35,21 +40,102 @@ const Post = ({ user }: { user: account }) => {
         value === undefined ? 'Description is empty' : null
     }
   });
+  const UpdateForm = useForm({
+    initialValues: {
+      title: '',
+      description: ''
+    },
 
+    validate: {
+      title: (value) => (value === undefined ? 'Title is empty' : null),
+      description: (value) =>
+        value === undefined ? 'Description is empty' : null
+    }
+  });
   return (
     <PageContainer account={user}>
-      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
-
+      {okMessage == undefined ? null : okMessage ? (
+        <Notification
+          icon={<Check size={18} />}
+          color="teal"
+          my={30}
+          title="Success!"
+        >
+          {message}
+        </Notification>
+      ) : (
+        <Notification
+          icon={<X size={18} />}
+          color="red"
+          my={30}
+          title="Bummer!"
+        >
+          {message}
+        </Notification>
+      )}
       <Tabs>
         <Tabs.Tab label="Read">
           <Group spacing={20} grow direction="column">
             {user.posts ? (
               user.posts.map((post) => (
-                <Card key={post.id} withBorder radius="lg" p="xl" shadow="sm">
-                  <Title order={3}>{post.title}</Title>
-                  <Badge>{user.username}</Badge>
-                  <Text mt={30}>{post.description}</Text>
-                </Card>
+                <div key={post.id}>
+                  <Modal
+                    opened={opened === post.id ? true : false}
+                    onClose={() => setOpened('')}
+                    title="Edit post"
+                    centered
+                  >
+                    <form
+                      onSubmit={UpdateForm.onSubmit(async (values, event) => {
+                        event.preventDefault();
+
+                        await axios
+                          .put(`/api/post/update?identifier=${post.id}`, values)
+                          .then((res) => {
+                            console.log(res.data.post);
+
+                            setOkMessage(res.data.ok);
+
+                            setMessage(res.data.message);
+                            Router.push('/private/posts');
+                          })
+                          .finally(() => {
+                            UpdateForm.reset()
+                            setTimeout(() => setOkMessage(undefined), 8000);
+                          });
+                      })}
+                    >
+                      <Group direction="column" grow>
+                        <TextInput
+                          label="Your Title"
+                          mt="sm"
+                          required
+                          {...UpdateForm.getInputProps('title')}
+                        />
+                        <Textarea
+                          mt="sm"
+                          label="Your Description"
+                          minRows={5}
+                          required
+                          {...UpdateForm.getInputProps('description')}
+                        />
+                        <Button type="submit" mt={20} onClick={() => setOpened('')}>
+                          Update
+                        </Button>
+                      </Group>
+                    </form>
+                  </Modal>
+                  <Card withBorder radius="lg" p="xl" shadow="sm">
+                    <Title order={3}>{post.title}</Title>
+                    <Badge>{user.username}</Badge>
+                    <Text mt={30}>{post.description}</Text>
+                    <Group position="right">
+                      <Button onClick={() => setOpened(post.id)}>
+                        Edit post
+                      </Button>
+                    </Group>
+                  </Card>
+                </div>
               ))
             ) : (
               <>
@@ -62,11 +148,6 @@ const Post = ({ user }: { user: account }) => {
         </Tabs.Tab>
         <Tabs.Tab label="Create">
           <Title order={2}>Create a post</Title>
-          {message && (
-            <Alert title="Success!" color="green" my={10}>
-              {message}
-            </Alert>
-          )}
 
           <form
             onSubmit={form.onSubmit(async (values, event) => {
