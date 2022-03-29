@@ -100,7 +100,7 @@ const Post = ({ user }: { user: account }) => {
                             Router.push('/dashboard/posts');
                           })
                           .finally(() => {
-                            UpdateForm.reset()
+                            UpdateForm.reset();
                             setTimeout(() => setOkMessage(undefined), 8000);
                           });
                       })}
@@ -119,7 +119,11 @@ const Post = ({ user }: { user: account }) => {
                           required
                           {...UpdateForm.getInputProps('description')}
                         />
-                        <Button type="submit" mt={20} onClick={() => setOpened('')}>
+                        <Button
+                          type="submit"
+                          mt={20}
+                          onClick={() => setOpened('')}
+                        >
                           Update
                         </Button>
                       </Group>
@@ -153,11 +157,17 @@ const Post = ({ user }: { user: account }) => {
             onSubmit={form.onSubmit(async (values, event) => {
               event.preventDefault();
 
-              await axios.post('/api/post/create', values).then((res) => {
-                setMessage(res.data.message);
-                form.reset();
-                Router.push('/dashboard/posts');
-              });
+              await axios
+                .post('/api/post/create', values)
+                .then((res) => {
+                  setOkMessage(res.data.ok);
+                  setMessage(res.data.message);
+                  Router.push('/dashboard/posts');
+                })
+                .finally(() => {
+                  UpdateForm.reset();
+                  setTimeout(() => setOkMessage(undefined), 8000);
+                });
             })}
           >
             <Group direction="column" grow style={{ maxWidth: '75%' }}>
