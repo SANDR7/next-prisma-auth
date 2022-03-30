@@ -17,6 +17,7 @@ import {
   Title
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useModals } from '@mantine/modals';
 import axios from 'axios';
 import { withIronSessionSsr } from 'iron-session/next';
 import Router from 'next/router';
@@ -27,6 +28,8 @@ const Post = ({ user }: { user: account }) => {
   const [message, setMessage] = useState('');
   const [okMessage, setOkMessage] = useState<boolean>();
   const [opened, setOpened] = useState('');
+
+  const modals = useModals();
 
   const form = useForm({
     initialValues: {
@@ -42,7 +45,7 @@ const Post = ({ user }: { user: account }) => {
   });
   const UpdateForm = useForm({
     initialValues: {
-      title: '',
+      title: 'f',
       description: ''
     },
 
@@ -52,6 +55,25 @@ const Post = ({ user }: { user: account }) => {
         value === undefined ? 'Description is empty' : null
     }
   });
+
+  const openDeleteModal = (id: string | undefined) =>
+    modals.openConfirmModal({
+      title: 'Delete your post',
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete your post? This action is destructive
+          and you will have to contact support to restore your data.
+        </Text>
+      ),
+      labels: { confirm: 'Delete Post', cancel: "No don't delete it" },
+      confirmProps: { color: 'red' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: async () =>
+        await axios
+          .delete(`/api/post/delete?identifier=${id}`)
+          .finally(() => Router.push('/dashboard/posts'))
+    });
   return (
     <PageContainer account={user}>
       {okMessage == undefined ? null : okMessage ? (
@@ -60,6 +82,7 @@ const Post = ({ user }: { user: account }) => {
           color="teal"
           my={30}
           title="Success!"
+          disallowClose
         >
           {message}
         </Notification>
@@ -134,8 +157,24 @@ const Post = ({ user }: { user: account }) => {
                     <Badge>{user.username}</Badge>
                     <Text mt={30}>{post.description}</Text>
                     <Group position="right">
-                      <Button onClick={() => setOpened(post.id)}>
+                      <Button
+                        onClick={() => {
+                          setOpened(post.id);
+                          console.log(post.id);
+
+                          UpdateForm.setValues({
+                            title: post.title,
+                            description: post.description
+                          });
+                        }}
+                      >
                         Edit post
+                      </Button>
+                      <Button
+                        color="red"
+                        onClick={() => openDeleteModal(post.id)}
+                      >
+                        Delete
                       </Button>
                     </Group>
                   </Card>
@@ -165,7 +204,7 @@ const Post = ({ user }: { user: account }) => {
                   Router.push('/dashboard/posts');
                 })
                 .finally(() => {
-                  UpdateForm.reset();
+                  form.reset();
                   setTimeout(() => setOkMessage(undefined), 8000);
                 });
             })}

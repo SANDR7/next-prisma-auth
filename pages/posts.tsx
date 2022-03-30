@@ -27,7 +27,7 @@ const Posts = ({ posts }: { posts: withUser[] }) => {
               <Text mt={30}>{post.description}</Text>
 
               <ActionIcon
-                variant="outline"
+                variant="filled"
                 mt={30}
                 p={4}
                 color="red"
