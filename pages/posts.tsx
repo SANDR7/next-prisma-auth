@@ -21,7 +21,7 @@ const like = async (id: string, currentLikes: number | null) => {
       currentLikes,
       clicked
     })
-    .then(() => Router.push('/posts'));
+    .then(() => Router.replace(Router.asPath));
 }
 
   return (

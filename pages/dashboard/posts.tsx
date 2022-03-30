@@ -72,7 +72,7 @@ const Post = ({ user }: { user: account }) => {
       onConfirm: async () =>
         await axios
           .delete(`/api/post/delete?identifier=${id}`)
-          .finally(() => Router.push('/dashboard/posts'))
+          .finally(() => Router.replace(Router.asPath))
     });
   return (
     <PageContainer account={user}>
@@ -120,7 +120,7 @@ const Post = ({ user }: { user: account }) => {
                             setOkMessage(res.data.ok);
 
                             setMessage(res.data.message);
-                            Router.push('/dashboard/posts');
+                            Router.replace(Router.asPath);
                           })
                           .finally(() => {
                             UpdateForm.reset();
@@ -201,7 +201,7 @@ const Post = ({ user }: { user: account }) => {
                 .then((res) => {
                   setOkMessage(res.data.ok);
                   setMessage(res.data.message);
-                  Router.push('/dashboard/posts');
+                  Router.replace(Router.asPath);
                 })
                 .finally(() => {
                   form.reset();
