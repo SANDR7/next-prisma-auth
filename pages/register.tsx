@@ -8,7 +8,8 @@ import {
   PasswordInput,
   Text,
   TextInput,
-  Title
+  Title,
+  useMantineTheme
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
@@ -20,6 +21,9 @@ import { AlertCircle } from 'tabler-icons-react';
 const Register = () => {
   const [submitting, setSubmitting] = useState(false);
   const [errMessage, setErrMessage] = useState('');
+
+  const theme = useMantineTheme();
+
   const form = useForm({
     initialValues: {
       username: '',
@@ -48,17 +52,17 @@ const Register = () => {
           <Title align="center" order={2}>
             Welcome!
           </Title>
-          <Text color="dimmed" align="center" mt={5}>
+          <Text align="center" mt={5}>
             Do have an account yet?{' '}
-            <Anchor
-              component={Link}
-              color="pink"
-              underline
-              href="/login"
-              size="sm"
-            >
-              Log in
-            </Anchor>
+            <Text component="span" color={theme.primaryColor}>
+              <Anchor
+                component={Link}
+                href="/login"
+                size="sm"
+              >
+                Log in
+              </Anchor>
+            </Text>
           </Text>
           {errMessage && (
             <Alert icon={<AlertCircle size={16} />} color="red" my={10}>

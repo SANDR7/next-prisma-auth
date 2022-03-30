@@ -59,7 +59,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   const userData = await prisma.user.findFirst({
     where: { username: user.username },
     include: {
-      posts: true
+      posts: true,
+      profile: true
     }
   });
 

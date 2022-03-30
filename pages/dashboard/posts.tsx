@@ -27,7 +27,7 @@ import { Check, X } from 'tabler-icons-react';
 const Post = ({ user }: { user: account }) => {
   const [message, setMessage] = useState('');
   const [okMessage, setOkMessage] = useState<boolean>();
-  const [opened, setOpened] = useState('');
+  const [opened, setOpened] = useState<string | null>('');
 
   const modals = useModals();
 
@@ -45,7 +45,7 @@ const Post = ({ user }: { user: account }) => {
   });
   const UpdateForm = useForm({
     initialValues: {
-      title: 'f',
+      title: '',
       description: ''
     },
 
@@ -115,15 +115,15 @@ const Post = ({ user }: { user: account }) => {
                         await axios
                           .put(`/api/post/update?identifier=${post.id}`, values)
                           .then((res) => {
-                            console.log(res.data.post);
-
                             setOkMessage(res.data.ok);
 
                             setMessage(res.data.message);
+
                             Router.push('/dashboard/posts');
                           })
                           .finally(() => {
                             UpdateForm.reset();
+                            setOpened('');
                             setTimeout(() => setOkMessage(undefined), 8000);
                           });
                       })}
@@ -142,11 +142,7 @@ const Post = ({ user }: { user: account }) => {
                           required
                           {...UpdateForm.getInputProps('description')}
                         />
-                        <Button
-                          type="submit"
-                          mt={20}
-                          onClick={() => setOpened('')}
-                        >
+                        <Button type="submit" mt={20}>
                           Update
                         </Button>
                       </Group>
@@ -159,13 +155,11 @@ const Post = ({ user }: { user: account }) => {
                     <Group position="right">
                       <Button
                         onClick={() => {
-                          setOpened(post.id);
-                          console.log(post.id);
-
                           UpdateForm.setValues({
                             title: post.title,
                             description: post.description
                           });
+                          setOpened(post.id);
                         }}
                       >
                         Edit post

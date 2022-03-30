@@ -28,9 +28,21 @@ model user {
   username String
   password String
   role     users_role
+  profile   profile?
   posts    post[]
 
   @@map("users")
+}
+
+model profile {
+  id String @id @default(cuid()) @db.VarChar(25)
+  bio String
+  avatar String
+  function String
+  phone String
+  user user @relation(fields: [userId], references: [id])
+  userId String
+
 }
 
 enum users_role {
