@@ -20,7 +20,7 @@ const Users = ({ user, allUser }: { user: account; allUser: account[] }) => {
   return (
     <PageContainer account={user}>
       <ScrollArea sx={{ height: 800 }}>
-        <Table>
+        <Table highlightOnHover striped>
           <thead>
             <tr>
               <th>Username</th>
