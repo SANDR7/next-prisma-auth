@@ -2,6 +2,7 @@ import { account } from '@/types/interfaces';
 import {
   ActionIcon,
   Anchor,
+  Avatar,
   Box,
   Button,
   Container,
@@ -40,19 +41,24 @@ export const Navigation = ({ account }: { account: account }) => {
   return (
     <Navbar width={{ lg: 400, sm: 300 }} p="lg">
       <Navbar.Section>
-        <Title order={2}>
-          Welcome,{' '}
-          <Text component="span" inherit transform="capitalize">
-            {account.username || 'Imposter'}
-            <Text color="gray">Type: {account.role || 'nothing'}</Text>
-          </Text>
-        </Title>
+        <Group>
+          <Avatar radius="xl">
+            {account.username.substring(0, 2).toUpperCase()}
+          </Avatar>
+          <Title order={2}>
+            Welcome,{' '}
+            <Text component="span" inherit transform="capitalize">
+              {account.username || 'Imposter'}
+              <Text color="gray">Type: {account.role || 'nothing'}</Text>
+            </Text>
+          </Title>
+        </Group>
       </Navbar.Section>
       <Navbar.Section grow mt="xl">
         <Group position="right" direction="column" grow>
-         <PageItem label='Account'link="/dashboard" compact={false}/>
-         <PageItem label='Posts'link="/dashboard/posts" compact={false}/>
-         {account.role === 'ADMIN' && (
+          <PageItem label="Account" link="/dashboard" compact={false} />
+          <PageItem label="Posts" link="/dashboard/posts" compact={false} />
+          {account.role === 'ADMIN' && (
             <PageItem label="Users" link="/dashboard/users" compact={false} />
           )}
         </Group>
@@ -72,13 +78,13 @@ export const Heading = ({ account }: { account: account | undefined }) => {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'start'
         }}
       >
         {/* return user ? account nav : static nav */}
         {account?.isLoggedIn ? (
           <>
-            <Anchor component={Link} href="/">
+            <Anchor component={Link} href="/dashboard">
               <Box style={{ cursor: 'pointer' }}>
                 {account.username} - {account.email}
               </Box>
