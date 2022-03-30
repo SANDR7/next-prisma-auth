@@ -6,7 +6,6 @@ import {
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 import { ModalsProvider } from '@mantine/modals';
 import type { AppProps } from 'next/app';
-import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -44,6 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // primaryColor: 'brand'
         }}
         withGlobalStyles
+        withNormalizeCSS
       >
         <ModalsProvider>
           <Component {...pageProps} />
