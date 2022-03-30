@@ -81,6 +81,7 @@ const Login = () => {
           >
             <TextInput
               id="email"
+              type="email"
               label="Email"
               placeholder="Your email"
               autoComplete="on"

@@ -2,11 +2,12 @@ import PageContainer from '@/layout/Main';
 import prisma from '@/lib/prisma';
 import { sessionOptions } from '@/lib/session';
 import { account } from '@/types/interfaces';
-import { Button, Text } from '@mantine/core';
+import { Button, Text, Tabs, ScrollArea } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import axios from 'axios';
 import { withIronSessionSsr } from 'iron-session/next';
 import Router from 'next/router';
+import { UserCircle, Code, Settings } from 'tabler-icons-react';
 
 const Dashboard = ({ user }: { user: account }) => {
   const modals = useModals();
@@ -31,10 +32,20 @@ const Dashboard = ({ user }: { user: account }) => {
     });
   return (
     <PageContainer account={user}>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      <Button onClick={openDeleteModal} color="red">
-        Delete account
-      </Button>
+      <Tabs variant="pills">
+        <Tabs.Tab label="Profile" icon={<UserCircle size={14} />}></Tabs.Tab>
+        <Tabs.Tab label="Raw" icon={<Code size={14} />}>
+        <ScrollArea style={{ width: 430, height: 500 }}>
+
+          <pre>{JSON.stringify(user, null, 2)}</pre>
+        </ScrollArea>
+        </Tabs.Tab>
+        <Tabs.Tab label="Settings" icon={<Settings size={14} />}>
+          <Button onClick={openDeleteModal} color="red">
+            Delete account
+          </Button>
+        </Tabs.Tab>
+      </Tabs>
     </PageContainer>
   );
 };

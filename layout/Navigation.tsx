@@ -16,21 +16,23 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Moon, Sun } from 'tabler-icons-react';
+import { Logout, Moon, Sun } from 'tabler-icons-react';
 
 const PageItem = ({
   label,
   link,
+  icon,
   compact = true,
   onClick
 }: {
   label: string;
   link: string;
   compact?: boolean;
+  icon?: React.ReactNode;
   onClick?: () => void;
 }) => (
   <Anchor component={Link} href={link}>
-    <Button variant="light" compact={compact} onClick={onClick}>
+    <Button variant="light" rightIcon={icon} compact={compact} onClick={onClick}>
       {label}
     </Button>
   </Anchor>
@@ -38,7 +40,7 @@ const PageItem = ({
 
 export const Navigation = ({ account }: { account: account }) => {
   return (
-    <Navbar width={{ lg: 400, sm: 300 }} p="lg">
+    <Navbar width={{ lg: 400, sm: 300, xs: 200 }} p="lg">
       <Navbar.Section>
         <Title order={2}>
           Welcome,{' '}
@@ -87,6 +89,7 @@ export const Heading = ({ account }: { account: account | undefined }) => {
               <PageItem
                 label="Logout"
                 link="/"
+                icon={<Logout size={16}/>}
                 onClick={async () =>
                   (await axios.post('/api/auth/logout')) &&
                   router.push('/login')

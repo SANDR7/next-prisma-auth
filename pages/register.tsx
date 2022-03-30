@@ -33,7 +33,7 @@ const Register = () => {
     },
 
     validate: {
-      username: (value) => (value === undefined ? 'Username is empty' : null),
+      username: (value) => (value === undefined ? 'Username is required' : null),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value) => (value.length < 6 ? 'Password is too short' : null),
       confirmPassword: (value, values) =>
@@ -47,7 +47,7 @@ const Register = () => {
 
   return (
     <PageContainer>
-      <Center>
+      <Center  mt={40}>
         <Paper withBorder shadow="xl" radius="md" style={{ width: 700 }} p={30}>
           <Title align="center" order={2}>
             Welcome!
@@ -95,6 +95,7 @@ const Register = () => {
             />
             <TextInput
               id="email"
+              type="email"
               label="Email"
               placeholder="Your email"
               mt="md"
@@ -105,6 +106,7 @@ const Register = () => {
             <PasswordInput
               id="password"
               label="Password"
+              description="Must be 6 characters long"
               placeholder="Your password"
               mt="md"
               autoComplete="off"
