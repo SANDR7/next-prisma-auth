@@ -35,10 +35,9 @@ const Dashboard = ({ user }: { user: account }) => {
       <Tabs variant="pills">
         <Tabs.Tab label="Profile" icon={<UserCircle size={14} />}></Tabs.Tab>
         <Tabs.Tab label="Raw" icon={<Code size={14} />}>
-        <ScrollArea style={{ width: 430, height: 500 }}>
-
-          <pre>{JSON.stringify(user, null, 2)}</pre>
-        </ScrollArea>
+          <ScrollArea style={{ width: 430, height: 500 }}>
+            <pre>{JSON.stringify(user, null, 2)}</pre>
+          </ScrollArea>
         </Tabs.Tab>
         <Tabs.Tab label="Settings" icon={<Settings size={14} />}>
           <Button onClick={openDeleteModal} color="red">
@@ -70,8 +69,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   const userData = await prisma.user.findFirst({
     where: { username: user.username },
     include: {
-      posts: true,
-      profile: true
+      posts: true
     }
   });
 

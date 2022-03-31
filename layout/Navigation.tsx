@@ -11,7 +11,8 @@ import {
   Navbar,
   Text,
   Title,
-  useMantineColorScheme
+  useMantineColorScheme,
+  useMantineTheme
 } from '@mantine/core';
 import axios from 'axios';
 import Link from 'next/link';
@@ -40,11 +41,12 @@ const PageItem = ({
 );
 
 export const Navigation = ({ account }: { account: account }) => {
+  const theme = useMantineTheme();
   return (
     <Navbar width={{ lg: 400, sm: 300, xs: 200 }} p="lg">
       <Navbar.Section>
         <Group>
-          <Avatar radius="xl">
+          <Avatar radius="xl" color={theme.primaryColor}>
             {account.username.substring(0, 2).toUpperCase()}
           </Avatar>
           <Title order={2}>
@@ -88,7 +90,7 @@ export const Heading = ({ account }: { account: account | undefined }) => {
           <>
             <Anchor component={Link} href="/dashboard">
               <Box style={{ cursor: 'pointer' }}>
-                {account.username} - {account.email}
+                The App
               </Box>
             </Anchor>
             <Group position="right">

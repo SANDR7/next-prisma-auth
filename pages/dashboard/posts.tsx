@@ -107,7 +107,7 @@ const Post = ({ user }: { user: account }) => {
                     onClose={() => setOpened('')}
                     title="Edit post"
                     centered
-                  >
+                    >
                     <form
                       onSubmit={UpdateForm.onSubmit(async (values, event) => {
                         event.preventDefault();

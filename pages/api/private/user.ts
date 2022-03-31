@@ -19,7 +19,8 @@ async function userRoute(req: NextApiRequest, res: NextApiResponse<any>) {
         where: { user_id: identifier as string }
       });
       await prisma.user.delete({
-        where: { id: identifier as string }
+        where: { id: identifier as string },
+        include: { posts: true }
       });
       req.session.destroy();
 

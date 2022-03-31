@@ -33,7 +33,12 @@ const Register = () => {
     },
 
     validate: {
-      username: (value) => (value === undefined ? 'Username is required' : null),
+      username: (value) =>
+        value === ''
+          ? 'Username is required'
+          : value.trim().length <= 2
+          ? 'must be longer'
+          : null,
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value) => (value.length < 6 ? 'Password is too short' : null),
       confirmPassword: (value, values) =>
@@ -47,22 +52,18 @@ const Register = () => {
 
   return (
     <PageContainer>
-      <Center  mt={40}>
+      <Center mt={40}>
         <Paper withBorder shadow="xl" radius="md" style={{ width: 700 }} p={30}>
           <Title align="center" order={2}>
             Welcome!
           </Title>
           <Text align="center" mt={5}>
             Do have an account yet?{' '}
-            <Text component="span" color={theme.primaryColor}>
-              <Anchor
-                component={Link}
-                href="/login"
-                size="sm"
-              >
+            <Link href="/login" passHref>
+              <Text component="a" color={theme.primaryColor}>
                 Log in
-              </Anchor>
-            </Text>
+              </Text>
+            </Link>
           </Text>
           {errMessage && (
             <Alert icon={<AlertCircle size={16} />} color="red" my={10}>
@@ -72,24 +73,26 @@ const Register = () => {
           <form
             onSubmit={form.onSubmit(async (values, event) => {
               event.preventDefault();
-              await axios.post('/api/auth/register', values).then((res) => {
-                const { ok, message } = res.data;
-                setSubmitting(true);
+              await axios
+                .post('/api/auth/register', values)
+                .then((res) => {
+                  const { ok, message } = res.data;
+                  setSubmitting(true);
 
-                if (ok) {
-                  Router.push('/dashboard');
-                } else {
-                  setSubmitting(false);
-                  setErrMessage(message);
-                }
-              });
+                  if (ok) {
+                    Router.push('/dashboard');
+                  } else {
+                    setSubmitting(false);
+                    setErrMessage(message);
+                  }
+                })
+                .catch((err) => console.log(err));
             })}
           >
             <TextInput
               id="username"
               label="Username"
               placeholder="Your username"
-              required
               disabled={submitting}
               {...form.getInputProps('username')}
             />
@@ -124,7 +127,7 @@ const Register = () => {
             />
 
             <Button fullWidth mt="xl" type="submit" loading={submitting}>
-              Sign in
+              Sign up
             </Button>
           </form>
         </Paper>

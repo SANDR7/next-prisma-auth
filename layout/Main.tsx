@@ -10,7 +10,7 @@ const PageContainer: FC<Account> = (props) => {
 
   const router = useRouter();
   const meta = {
-    title: `Next Prisma - template`,
+    title: `Next Prisma — CRUD Login`,
     description: 'Authentication app that combines front-end & back-end',
     ...customMeta
   };

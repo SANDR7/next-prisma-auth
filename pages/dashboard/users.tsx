@@ -7,13 +7,19 @@ import { user } from '@prisma/client';
 import { withIronSessionSsr } from 'iron-session/next';
 import React from 'react';
 
-const Users = ({ user, allUser }: { user: account; allUser: account[] }) => {
-  const rows = allUser.map((row: any) => (
+interface withPosts extends account {
+  _count: {
+    posts: number;
+  };
+}
+
+const Users = ({ user, allUser }: { user: account; allUser: withPosts[] }) => {
+  const rows = allUser.map((row) => (
     <tr key={row.username}>
       <td>{row.username}</td>
       <td>{row.email}</td>
       <td>{row.role}</td>
-      <td>{row?._count?.posts}</td>
+      <td>{row._count.posts}</td>
     </tr>
   ));
 
@@ -59,7 +65,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       username: true,
       email: true,
       role: true,
-      posts: true
+      posts: true,
     }
   });
 

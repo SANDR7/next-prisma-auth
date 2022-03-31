@@ -46,17 +46,11 @@ const Login = () => {
           </Title>
           <Text align="center" mt={5}>
             Do not have an account yet?{' '}
-            <Text component="span" color={theme.primaryColor}>
-              <Anchor
-                component={Link}
-                underline
-                inherit
-                href="/register"
-                size="sm"
-              >
-                Create account
-              </Anchor>
-            </Text>
+            <Link href="/register" passHref>
+              <Text component="a" color={theme.primaryColor}>
+                Create Account
+              </Text>
+            </Link>
           </Text>
           {errMessage && (
             <Alert icon={<AlertCircle size={16} />} color="red" my={10}>

@@ -13,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const { username, email, password } = req.body;
 
-  if (!username && !email && !password)
+  if (!username || !email || !password)
     return res.json({ message: 'No data given', ok: false });
 
   try {
@@ -25,9 +25,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
     });
 
+    if (!email.includes('.') || !email.includes('@')) {
+      return res.json({ message: 'format is unvalid', ok: false });
+    }
+
     if (checkTakenUser) {
       return res.json({
-        message: 'User already exists (a.k.a email is used)',
+        message: 'User already exists (email is used)',
         ok: false
       });
     }
