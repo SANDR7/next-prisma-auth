@@ -31,6 +31,13 @@ async function userRoute(req: NextApiRequest, res: NextApiResponse<any>) {
         }
       });
 
+      if (
+        updatePost.title === title &&
+        updatePost.description === description
+      ) {
+        return res.json({ message: 'Post is kept the same', ok: true });
+      }
+
       return res
         .status(200)
         .json({ post: updatePost, message: 'updated post', ok: true });

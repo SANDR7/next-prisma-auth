@@ -12,8 +12,8 @@ datasource db {
 
 model post {
   id          String  @id @default(cuid()) @db.VarChar(25)
-  title       String
-  description String
+  title       String @db.VarChar(255)
+  description String @db.Text
   user_id     String? @db.VarChar(25)
   likes       Int?     @db.Int @default(0)
   users       user?   @relation(fields: [user_id], references: [id])

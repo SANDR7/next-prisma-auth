@@ -32,13 +32,21 @@ const PageItem = ({
   compact?: boolean;
   icon?: React.ReactNode;
   onClick?: () => void;
-}) => (
-  <Anchor component={Link} href={link}>
-    <Button variant="light" rightIcon={icon} compact={compact} onClick={onClick}>
-      {label}
-    </Button>
-  </Anchor>
-);
+}) => {
+  const router = useRouter();
+  return (
+    <Anchor component={Link} href={link}>
+      <Button
+        variant={router.asPath === link ? 'light' : 'subtle'}
+        rightIcon={icon}
+        compact={compact}
+        onClick={onClick}
+      >
+        {label}
+      </Button>
+    </Anchor>
+  );
+};
 
 export const Navigation = ({ account }: { account: account }) => {
   const theme = useMantineTheme();
@@ -89,15 +97,13 @@ export const Heading = ({ account }: { account: account | undefined }) => {
         {account?.isLoggedIn ? (
           <>
             <Anchor component={Link} href="/dashboard">
-              <Box style={{ cursor: 'pointer' }}>
-                The App
-              </Box>
+              <Box style={{ cursor: 'pointer' }}>The App</Box>
             </Anchor>
             <Group position="right">
               <PageItem
                 label="Logout"
                 link="/"
-                icon={<Logout size={16}/>}
+                icon={<Logout size={16} />}
                 onClick={async () =>
                   (await axios.post('/api/auth/logout')) &&
                   router.push('/login')

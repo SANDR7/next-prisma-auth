@@ -58,7 +58,7 @@ const Register = () => {
             Welcome!
           </Title>
           <Text align="center" mt={5}>
-            Do have an account yet?{' '}
+            Do you have an account?{' '}
             <Link href="/login" passHref>
               <Text component="a" color={theme.primaryColor}>
                 Log in

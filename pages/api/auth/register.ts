@@ -28,6 +28,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!email.includes('.') || !email.includes('@')) {
       return res.json({ message: 'format is unvalid', ok: false });
     }
+    if(email.includes("@glr.nl")) {
+      return res.json({ message: 'Hello student', ok: false });
+    }
 
     if (checkTakenUser) {
       return res.json({
