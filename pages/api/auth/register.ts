@@ -29,7 +29,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.json({ message: 'format is unvalid', ok: false });
     }
     if(email.includes("@glr.nl")) {
-      return res.json({ message: 'Hello student', ok: false });
+      return res.json({ message: 'Hello student', ok: true });
     }
 
     if (checkTakenUser) {
