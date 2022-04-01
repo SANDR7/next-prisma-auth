@@ -27,22 +27,22 @@ function MyApp({ Component, pageProps }: AppProps) {
         theme={{
           fontFamily: 'sans-serif',
           colorScheme,
-          primaryColor: colorScheme === 'dark' ? 'indigo' : 'teal'
-          // colors: {
-          //   brand: [
-          //     '#F0BBDD',
-          //     '#ED9BCF',
-          //     '#EC7CC3',
-          //     '#ED5DB8',
-          //     '#F13EAF',
-          //     '#F71FA7',
-          //     '#FF00A1',
-          //     '#E00890',
-          //     '#C50E82',
-          //     '#AD1374'
-          //   ]
-          // }
-          // primaryColor: 'brand'
+          // primaryColor: colorScheme === 'dark' ? 'indigo' : 'teal',
+          colors: {
+            brand: [
+              '#EFFDD8',
+              '#DFFDB0',
+              '#C7FB74',
+              '#AFF939',
+              '#9FF812',
+              '#8FE507',
+              '#89DA07',
+              '#7CC606',
+              '#70B206',
+              '#639D06'
+            ]
+          },
+          primaryColor:  'brand'
         }}
       >
         <ModalsProvider>
