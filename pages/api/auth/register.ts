@@ -1,9 +1,11 @@
 import prisma from '@/lib/prisma';
 import { sessionOptions } from '@/lib/session';
+import { validateString } from '@/lib/xss';
 import { user } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
+import xss, { escapeHtml } from 'xss';
 
 export default withIronSessionApiRoute(handler, sessionOptions);
 
@@ -11,8 +13,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST')
     return res.status(405).json({ message: 'Invalid request', ok: false });
 
-  const { username, email, password } = req.body;
-
+  let { username, email, password } = req.body;
+ 
+  username = validateString(username);
+  email = validateString(email);
+  password = validateString(password);
+  
   if (!username || !email || !password)
     return res.json({ message: 'No data given', ok: false });
 
@@ -24,6 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         }
       }
     });
+
 
     if (!email.includes('.') || !email.includes('@')) {
       return res.json({ message: 'format is unvalid', ok: false });

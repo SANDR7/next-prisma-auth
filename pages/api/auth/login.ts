@@ -6,6 +6,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import prisma from 'lib/prisma';
 import { sessionOptions } from 'lib/session';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import xss from 'xss';
 
 export default withIronSessionApiRoute(handler, sessionOptions);
 
@@ -13,9 +14,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST')
     return res.status(405).json({ message: 'Invalid request' });
 
-  const { email, password } = req.body;
-  var html = validateString(email);
-  console.log(html);
+  let { email, password } = req.body;
+
+  email = validateString(email);
+  password = validateString(password);
 
   const loggedInUser = await prisma.user.findFirst({
     where: { email },
